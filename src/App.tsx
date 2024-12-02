@@ -2,13 +2,16 @@ import React from 'react';
 import { TradingChart } from './components/Chart/TradingChart';
 import { LiquidityControls } from './components/Controls/LiquidityControls';
 import { ChartControls } from './components/Controls/ChartControls';
-import { SymbolSelector } from './components/Controls/SymbolSelector';
-import { SignalsPanel } from './components/Signals/SignalsPanel';
-import { useTradingStore } from './store/tradingStore';
+
+// Sample data - In a real app, this would come from an API
+const sampleData = [
+  { time: '2024-03-01', open: 100, high: 105, low: 98, close: 103 },
+  { time: '2024-03-02', open: 103, high: 107, low: 101, close: 105 },
+  { time: '2024-03-03', open: 105, high: 108, low: 102, close: 106 },
+  // Add more data points as needed
+];
 
 function App() {
-  const { symbol } = useTradingStore();
-
   return (
     <div className="min-h-screen bg-slate-900 p-6">
       <header className="mb-6">
@@ -19,15 +22,13 @@ function App() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3">
           <div className="bg-slate-800 p-4 rounded-lg">
-            <TradingChart symbol={symbol} />
+            <TradingChart data={sampleData} />
           </div>
         </div>
         
         <div className="space-y-6">
-          <SymbolSelector />
           <LiquidityControls />
           <ChartControls />
-          <SignalsPanel />
         </div>
       </div>
     </div>
