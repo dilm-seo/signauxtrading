@@ -12,6 +12,7 @@ import { CostPopup } from './components/CostPopup';
 import { TradingSessions } from './components/TradingSessions';
 import { CalendarButton } from './components/CalendarButton';
 import { EconomicCalendar } from './components/EconomicCalendar';
+import { MarketTickers } from './components/MarketTickers';
 import { fetchForexNews, analyzeNews } from './services/api';
 import { AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -81,6 +82,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <Header />
       <TradingSessions />
+      <MarketTickers />
       
       <main className="max-w-8xl mx-auto px-4 py-8">
         {error && (

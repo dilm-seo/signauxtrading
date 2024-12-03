@@ -110,4 +110,21 @@
   .section-title {
     @apply text-xl font-semibold text-gradient;
   }
+
+  /* TradingView Widget Styles */
+  .tradingview-widget-container {
+    @apply w-full overflow-hidden;
+  }
+
+  .tradingview-widget-copyright {
+    @apply text-xs text-gray-400 mt-2 text-center;
+  }
+
+  .tradingview-widget-copyright a {
+    @apply text-blue-400 hover:text-blue-300 transition-colors;
+  }
+
+  .blue-text {
+    @apply text-blue-400;
+  }
 }
