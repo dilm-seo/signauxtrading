@@ -55,9 +55,6 @@ Format JSON attendu:
 
     const inputTokens = tokenizer.count(systemPrompt + newsText);
 
-    // Add artificial delay to match the progress bar
-    await sleep(Math.random() * 2000 + 1000);
-
     const response = await this.openai.chat.completions.create({
       model: this.settings.model,
       messages: [
@@ -78,16 +75,117 @@ Format JSON attendu:
     const outputTokens = tokenizer.count(content);
 
     return {
-      ...analysis,
+      strengths: analysis.strengths || [],
+      correlations: analysis.correlations || [],
       tokensUsed: inputTokens + outputTokens
     };
+  }
+
+  private mergeAnalyses(analyses: ProgressiveAnalysis[]): ProgressiveAnalysis {
+    const strengthsMap = new Map<string, CurrencyStrength[]>();
+    const correlationsMap = new Map<string, Correlation[]>();
+    let totalTokens = 0;
+
+    // Collect all analyses
+    for (const analysis of analyses) {
+      totalTokens += analysis.tokensUsed;
+
+      // Group strengths by currency
+      for (const strength of analysis.strengths) {
+        const current = strengthsMap.get(strength.currency) || [];
+        current.push(strength);
+        strengthsMap.set(strength.currency, current);
+      }
+
+      // Group correlations by pair combination
+      for (const correlation of analysis.correlations) {
+        const key = [correlation.pair1, correlation.pair2].sort().join('-');
+        const current = correlationsMap.get(key) || [];
+        current.push(correlation);
+        correlationsMap.set(key, current);
+      }
+    }
+
+    // Merge strengths
+    const mergedStrengths = Array.from(strengthsMap.entries()).map(([currency, strengths]) => {
+      const avgStrength = strengths.reduce((sum, s) => sum + s.strength, 0) / strengths.length;
+      const sentiments = strengths.map(s => s.sentiment);
+      const dominantSentiment = this.getMostFrequent(sentiments);
+      
+      return {
+        currency,
+        strength: avgStrength,
+        sentiment: dominantSentiment,
+        rationale: this.combineRationales(strengths.map(s => s.rationale))
+      };
+    });
+
+    // Merge correlations
+    const mergedCorrelations = Array.from(correlationsMap.entries()).map(([key, correlations]) => {
+      const avgStrength = correlations.reduce((sum, c) => sum + c.strength, 0) / correlations.length;
+      const [pair1, pair2] = correlations[0].pair1 < correlations[0].pair2 
+        ? [correlations[0].pair1, correlations[0].pair2]
+        : [correlations[0].pair2, correlations[0].pair1];
+
+      return {
+        pair1,
+        pair2,
+        strength: avgStrength,
+        recommendation: this.combineRecommendations(correlations.map(c => c.recommendation)),
+        rationale: this.combineRationales(correlations.map(c => c.rationale))
+      };
+    });
+
+    return {
+      strengths: mergedStrengths,
+      correlations: mergedCorrelations,
+      tokensUsed: totalTokens
+    };
+  }
+
+  private getMostFrequent<T>(arr: T[]): T {
+    const counts = arr.reduce((acc, val) => {
+      acc.set(val, (acc.get(val) || 0) + 1);
+      return acc;
+    }, new Map<T, number>());
+
+    let maxCount = 0;
+    let mostFrequent: T = arr[0];
+
+    for (const [val, count] of counts.entries()) {
+      if (count > maxCount) {
+        maxCount = count;
+        mostFrequent = val;
+      }
+    }
+
+    return mostFrequent;
+  }
+
+  private combineRationales(rationales: string[]): string {
+    const uniquePoints = new Set<string>();
+    
+    rationales.forEach(rationale => {
+      rationale.split('.').forEach(point => {
+        const trimmed = point.trim();
+        if (trimmed) uniquePoints.add(trimmed);
+      });
+    });
+
+    return Array.from(uniquePoints)
+      .slice(0, 3)
+      .join('. ') + '.';
+  }
+
+  private combineRecommendations(recommendations: string[]): string {
+    const uniqueRecs = new Set(recommendations);
+    return Array.from(uniqueRecs)[0] || 'Pas de recommandation disponible';
   }
 
   public async analyze(news: NewsItem[]): Promise<ProgressiveAnalysis> {
     // Check cache first
     const cached = analysisCache.getCachedAnalysis(news);
     if (cached) {
-      // Add minimal delay even for cached results
       await sleep(5000);
       return { ...cached.data, tokensUsed: 0 };
     }
@@ -99,17 +197,18 @@ Format JSON attendu:
       chunks.push(news.slice(i, i + chunkSize));
     }
 
-    let totalTokens = 0;
     const analyses: ProgressiveAnalysis[] = [];
-
-    // Analyze each chunk with timing distribution
     const chunkDelay = Math.floor(30000 / chunks.length);
-    for (const chunk of chunks) {
+
+    // Analyze chunks in parallel with delays
+    const analysisPromises = chunks.map(async (chunk, index) => {
+      await sleep(index * chunkDelay);
       const analysis = await this.analyzeNewsChunk(chunk);
-      totalTokens += analysis.tokensUsed;
       analyses.push(analysis);
-      await sleep(chunkDelay);
-    }
+      return analysis;
+    });
+
+    await Promise.all(analysisPromises);
 
     // Merge analyses
     const mergedAnalysis = this.mergeAnalyses(analyses);
@@ -120,11 +219,6 @@ Format JSON attendu:
       correlations: mergedAnalysis.correlations
     });
 
-    return {
-      ...mergedAnalysis,
-      tokensUsed: totalTokens
-    };
+    return mergedAnalysis;
   }
-
-  // ... rest of the class implementation remains the same
 }
