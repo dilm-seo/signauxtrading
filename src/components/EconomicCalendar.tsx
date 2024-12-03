@@ -21,12 +21,12 @@ export function EconomicCalendar({ isOpen, onClose }: EconomicCalendarProps) {
           />
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100vw-2rem)] md:w-[calc(100vw-4rem)] lg:w-[calc(100vw-8rem)] max-w-5xl h-[calc(100vh-4rem)]"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed left-0 top-0 right-0 z-50 m-4 max-w-7xl mx-auto"
           >
-            <div className="glass-panel h-full flex flex-col">
+            <div className="glass-panel h-[calc(100vh-2rem)] flex flex-col">
               <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
                 <div className="flex items-center gap-3">
                   <div className="relative">

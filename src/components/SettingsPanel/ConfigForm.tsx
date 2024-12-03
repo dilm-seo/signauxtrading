@@ -1,52 +1,31 @@
-import React, { useState } from 'react';
-import { Settings } from '../types';
-import { Settings as SettingsIcon, Save, Key, RefreshCw } from 'lucide-react';
+import React from 'react';
+import { Settings } from '../../types';
+import { Key, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-interface SettingsPanelProps {
+interface ConfigFormProps {
   settings: Settings;
-  onSettingsChange: (settings: Settings) => void;
   autoAnalyze: boolean;
+  onSettingsChange: (settings: Settings) => void;
   onAutoAnalyzeChange: (auto: boolean) => void;
+  onSave: () => void;
 }
 
-export function SettingsPanel({ 
-  settings, 
-  onSettingsChange,
+export function ConfigForm({
+  settings,
   autoAnalyze,
-  onAutoAnalyzeChange
-}: SettingsPanelProps) {
-  const [isDirty, setIsDirty] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
-
-  const handleChange = (field: keyof Settings, value: string) => {
-    setIsDirty(true);
-    setIsSaved(false);
-    onSettingsChange({ ...settings, [field]: value });
-  };
-
-  const handleSave = () => {
-    setIsDirty(false);
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 2000);
-  };
-
+  onSettingsChange,
+  onAutoAnalyzeChange,
+  onSave
+}: ConfigFormProps) {
   return (
-    <motion.div 
-      className="p-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+    <motion.div
+      initial={{ rotateY: 180 }}
+      animate={{ rotateY: 0 }}
+      exit={{ rotateY: 180 }}
+      className="absolute inset-0 bg-gray-900 rounded-2xl backface-hidden"
     >
-      <div className="flex items-center gap-3 mb-6">
-        <div className="relative">
-          <div className="absolute inset-0 bg-purple-500/20 blur-lg rounded-full"></div>
-          <SettingsIcon className="w-6 h-6 text-purple-400 relative" />
-        </div>
-        <h2 className="text-xl font-semibold text-gradient">Configuration</h2>
-      </div>
-      
-      <div className="space-y-6">
+      <div className="p-6 space-y-6">
         <div>
           <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
             <Key className="w-4 h-4" />
@@ -55,7 +34,7 @@ export function SettingsPanel({
           <input
             type="password"
             value={settings.apiKey}
-            onChange={(e) => handleChange('apiKey', e.target.value)}
+            onChange={(e) => onSettingsChange({ ...settings, apiKey: e.target.value })}
             className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl 
                      text-gray-100 placeholder-gray-500 input-focus"
             placeholder="sk-..."
@@ -68,7 +47,7 @@ export function SettingsPanel({
           </label>
           <select
             value={settings.model}
-            onChange={(e) => handleChange('model', e.target.value)}
+            onChange={(e) => onSettingsChange({ ...settings, model: e.target.value })}
             className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl 
                      text-gray-100 input-focus"
           >
@@ -100,16 +79,12 @@ export function SettingsPanel({
         </div>
 
         <motion.button
-          onClick={handleSave}
-          disabled={!isDirty}
+          onClick={onSave}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className={`glass-button w-full flex items-center justify-center gap-2 ${
-            !isDirty && 'opacity-50 cursor-not-allowed'
-          }`}
+          className="glass-button w-full flex items-center justify-center gap-2"
         >
-          <Save className="w-4 h-4" />
-          {isSaved ? 'Configuration sauvegardée!' : 'Sauvegarder'}
+          Sauvegarder
         </motion.button>
       </div>
     </motion.div>

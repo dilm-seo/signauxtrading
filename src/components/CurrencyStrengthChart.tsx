@@ -1,6 +1,6 @@
 import React from 'react';
 import { CurrencyStrength } from '../types';
-import { TrendingUp, ChevronDown, ChevronUp, Minus } from 'lucide-react';
+import { TrendingUp, ChevronDown, ChevronUp, Minus, Info } from 'lucide-react';
 
 interface CurrencyStrengthChartProps {
   strengths: CurrencyStrength[];
@@ -8,6 +8,8 @@ interface CurrencyStrengthChartProps {
 
 export function CurrencyStrengthChart({ strengths }: CurrencyStrengthChartProps) {
   const sortedStrengths = [...strengths].sort((a, b) => b.strength - a.strength);
+  const strongest = sortedStrengths[0];
+  const weakest = sortedStrengths[sortedStrengths.length - 1];
 
   return (
     <div className="space-y-6">
@@ -17,6 +19,20 @@ export function CurrencyStrengthChart({ strengths }: CurrencyStrengthChartProps)
           <TrendingUp className="w-6 h-6 text-pink-400 relative" />
         </div>
         <h2 className="text-xl font-semibold text-gray-100">Force des Devises</h2>
+      </div>
+
+      <div className="glass-panel p-4 mb-6">
+        <div className="flex items-start gap-2">
+          <Info className="w-4 h-4 text-blue-400 mt-1 flex-shrink-0" />
+          <div className="space-y-2">
+            <p className="text-sm text-gray-300">
+              <span className="font-medium text-blue-400">{strongest.currency}</span> montre la plus grande force ({(strongest.strength * 100).toFixed(1)}%) : {strongest.rationale}
+            </p>
+            <p className="text-sm text-gray-300">
+              <span className="font-medium text-red-400">{weakest.currency}</span> présente la plus grande faiblesse ({(weakest.strength * 100).toFixed(1)}%) : {weakest.rationale}
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -56,6 +72,10 @@ export function CurrencyStrengthChart({ strengths }: CurrencyStrengthChartProps)
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-white/10"></div>
               </div>
             </div>
+
+            <p className="text-sm text-gray-400 mt-1">
+              {currency.rationale}
+            </p>
           </div>
         ))}
       </div>

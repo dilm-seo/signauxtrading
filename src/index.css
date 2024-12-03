@@ -6,24 +6,49 @@
   body {
     @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100;
   }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-800/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-600/50 rounded-full hover:bg-gray-500/50 transition-colors;
+  }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-gray-900/40 backdrop-blur-lg border border-gray-700/50 rounded-2xl;
+    @apply bg-gray-900/40 backdrop-blur-lg border border-gray-700/50 rounded-2xl 
+           shadow-[0_8px_32px_rgba(0,0,0,0.37)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)]
+           transition-all duration-500;
   }
   
   .glass-button {
     @apply px-6 py-3 bg-blue-600/20 hover:bg-blue-600/30 backdrop-blur-sm border border-blue-500/30 
-           rounded-xl transition-all duration-300 text-blue-100 font-medium;
+           rounded-xl transition-all duration-300 text-blue-100 font-medium shadow-lg 
+           hover:shadow-blue-500/20 active:scale-95;
   }
 
   .gradient-border {
-    @apply relative rounded-2xl p-[1px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500;
+    @apply relative rounded-2xl p-[1px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500
+           shadow-[0_8px_32px_rgba(0,0,0,0.37)];
   }
 
   .gradient-border > * {
     @apply bg-gray-900 rounded-2xl;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
   }
 
   .animate-glow {
@@ -41,11 +66,48 @@
     }
   }
 
-  .delay-150 {
-    animation-delay: 150ms;
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
   }
 
-  .delay-300 {
-    animation-delay: 300ms;
+  .bg-gradient-subtle {
+    @apply bg-gradient-to-br from-gray-800/50 via-gray-900/50 to-gray-800/50;
+  }
+
+  .input-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 
+           transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg;
+  }
+
+  .floating-button {
+    @apply fixed z-40 glass-button rounded-full p-3 md:p-4 flex items-center gap-2;
+  }
+
+  .floating-button-left {
+    @apply left-4 md:left-6 bottom-6;
+  }
+
+  .floating-button-right {
+    @apply right-4 md:right-6 bottom-6;
+  }
+
+  .section-header {
+    @apply flex items-center gap-3 mb-6;
+  }
+
+  .section-icon {
+    @apply relative;
+  }
+
+  .section-icon-glow {
+    @apply absolute inset-0 blur-lg rounded-full;
+  }
+
+  .section-title {
+    @apply text-xl font-semibold text-gradient;
   }
 }
