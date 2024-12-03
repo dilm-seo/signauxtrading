@@ -116,15 +116,11 @@
     @apply w-full overflow-hidden;
   }
 
+  .tradingview-widget-container__widget {
+    @apply bg-transparent !important;
+  }
+
   .tradingview-widget-copyright {
-    @apply text-xs text-gray-400 mt-2 text-center;
-  }
-
-  .tradingview-widget-copyright a {
-    @apply text-blue-400 hover:text-blue-300 transition-colors;
-  }
-
-  .blue-text {
-    @apply text-blue-400;
+    @apply hidden;
   }
 }
