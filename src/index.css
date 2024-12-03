@@ -110,17 +110,4 @@
   .section-title {
     @apply text-xl font-semibold text-gradient;
   }
-
-  /* TradingView Widget Styles */
-  .tradingview-widget-container {
-    @apply w-full overflow-hidden;
-  }
-
-  .tradingview-widget-container__widget {
-    @apply bg-transparent !important;
-  }
-
-  .tradingview-widget-copyright {
-    @apply hidden;
-  }
 }
