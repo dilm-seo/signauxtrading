@@ -13,6 +13,7 @@ import { TradingSessions } from './components/TradingSessions';
 import { CalendarButton } from './components/CalendarButton';
 import { EconomicCalendar } from './components/EconomicCalendar';
 import { MarketTickers } from './components/MarketTickers';
+import { TradingViewChart } from './components/TradingViewChart';
 import { fetchForexNews, analyzeNews } from './services/api';
 import { AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -140,6 +141,8 @@ function App() {
           </div>
 
           <div className="lg:col-span-9 space-y-8">
+            <TradingViewChart />
+
             {isContentLoading ? (
               <div className="flex items-center justify-center h-64">
                 <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
