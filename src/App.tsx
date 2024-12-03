@@ -10,6 +10,8 @@ import { Header } from './components/Header';
 import { Preloader } from './components/Preloader';
 import { CostPopup } from './components/CostPopup';
 import { TradingSessions } from './components/TradingSessions';
+import { CalendarButton } from './components/CalendarButton';
+import { EconomicCalendar } from './components/EconomicCalendar';
 import { fetchForexNews, analyzeNews } from './services/api';
 import { AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { useLocalStorage } from './hooks/useLocalStorage';
@@ -22,6 +24,7 @@ function App() {
     model: 'gpt-4-turbo-preview',
   });
   const [autoAnalyze, setAutoAnalyze] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { currentCost, isPopupVisible, trackCost, hidePopup } = useOpenAICost();
 
   useEffect(() => {
@@ -162,6 +165,11 @@ function App() {
       </main>
 
       <FloatingChatBot settings={settings} news={news} />
+      <CalendarButton onClick={() => setIsCalendarOpen(true)} />
+      <EconomicCalendar 
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+      />
       <CostPopup
         cost={currentCost}
         isVisible={isPopupVisible}
