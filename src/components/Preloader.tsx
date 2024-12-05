@@ -16,7 +16,7 @@ export function Preloader() {
             <div className="w-3 h-3 rounded-full bg-purple-400 animate-pulse delay-150"></div>
             <div className="w-3 h-3 rounded-full bg-pink-400 animate-pulse delay-300"></div>
           </div>
-          <p className="mt-4 text-gray-400 text-sm">Chargement de l'application...</p>
+          <p className="mt-4 text-pink-400 text-sm">Chargement de l'application...</p>
         </div>
       </div>
     </div>
