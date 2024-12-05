@@ -16,14 +16,13 @@ export async function analyzeCurrencyStrength(
 
   const systemPrompt = `En tant qu'expert en analyse des marchés Forex, analysez les actualités fournies pour:
 
-1. Évaluer la force relative des devises majeures (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF)
+1. Analyse ces news et évalue la force relative des devises majeures (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF)
 2. Attribuer un score de force (-1 à 1) basé sur:
    - Les politiques des banques centrales
    - Les indicateurs économiques
    - Le sentiment du marché
-   - Les facteurs techniques
 3. Déterminer le sentiment (haussier/baissier/neutre)
-4. Fournir une justification détaillée
+4. Fournir une justification détaillée en 2 à 3 phrases
 
 Format JSON attendu:
 {
@@ -50,8 +49,8 @@ Format JSON attendu:
         { role: 'user', content: newsText }
       ],
       response_format: { type: "json_object" },
-      temperature: 0.7,
-      max_tokens: 1500,
+      temperature: 0.5,
+      max_tokens: 1000,
     });
 
     const content = response.choices[0]?.message?.content;
