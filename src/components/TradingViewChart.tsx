@@ -19,7 +19,7 @@ export function TradingViewChart() {
           "width": "100%",
           "height": 600,
           "symbol": "FX:EURUSD",
-          "interval": "D",
+          "interval": "15",
           "timezone": "Europe/Paris",
           "theme": "dark",
           "style": "1",
