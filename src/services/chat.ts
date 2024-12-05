@@ -35,7 +35,7 @@ Contexte des actualités récentes:
 ${newsContext}
 
 Réponds en français de manière professionnelle mais accessible, réponse courte (2 à 3 phrases maximum) c'est tchat.
-Format: html avec Tailwind CSS `;
+Format: HTML `;
 
   try {
     const response = await openai.chat.completions.create({
