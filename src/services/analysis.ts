@@ -21,7 +21,7 @@ export async function analyzeCurrencyStrength(
    - Les politiques des banques centrales
    - Les indicateurs économiques
    - Le sentiment du marché
-3. Déterminer le sentiment (haussier/baissier/neutre)
+3. Déterminer le sentiment (haussier/baissier/neutre) pour la paire concernée
 4. Fournir une justification détaillée en 2 à 3 phrases
 
 Format JSON attendu:
