@@ -16,7 +16,7 @@ export async function analyzeCurrencyStrength(
 
   const systemPrompt = `En tant qu'expert en analyse des marchés Forex, analysez les actualités fournies pour:
 
-1. Analyse ces news et évalue la force relative des devises majeures (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF)
+1. Analyse ces news et évalue la force relative des devises majeures UNIQUEMENT (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF)
 2. Attribuer un score de force (-1 à 1) basé sur:
    - Les politiques des banques centrales
    - Les indicateurs économiques
