@@ -35,7 +35,7 @@ export async function analyzeWithAI(message: string, settings: Settings, news: N
 Contexte des actualités récentes:
 ${newsContext}
 
-Réponds en français de manière professionnelle mais accessible.`;
+Réponds en français de manière professionnelle mais accessible, réponse courte (2 à 3 phrases maximum) c'est tchat.`;
 
   try {
     const response = await openai.chat.completions.create({
