@@ -49,6 +49,9 @@ export function NewsFeed({ news, isLoading }: NewsFeedProps) {
                   {item.title}
                 </h3>
                 <p className="text-sm text-gray-400 mt-2 line-clamp-2 group-hover:line-clamp-none transition-all duration-300">
+                  {item.description}
+                </p>
+                <p className="text-sm text-gray-400 mt-2 line-clamp-2 group-hover:line-clamp-none transition-all duration-300">
                   {item.content}
                 </p>
                 <div className="flex items-center gap-4 mt-3">
