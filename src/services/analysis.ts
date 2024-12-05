@@ -14,15 +14,15 @@ export async function analyzeCurrencyStrength(
     dangerouslyAllowBrowser: true
   });
 
-  const systemPrompt = `En tant qu'expert en analyse des marchés Forex, analysez les actualités fournies pour:
+  const systemPrompt = `En tant qu'analyste expert du marché Forex, évaluez les informations fournies pour déterminer l'impact sur les principales devises mondiales (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF). Pour chaque devise :
 
-1. Analyse ces news et évalue la force relative des devises majeures (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF)
-2. Attribuer un score de force (-1 à 1) basé sur:
-   - Les politiques des banques centrales
-   - Les indicateurs économiques
-   - Le sentiment du marché
-3. Déterminer le sentiment (haussier/baissier/neutre) pour la devise concernée
-4. Fournir une justification détaillée en 2 à 3 phrases
+1. Analysez les nouvelles en lien direct avec cette devise et identifiez leur impact potentiel.
+2. Attribuez un score de force relatif (-1 à 1), basé sur :
+- Les annonces des banques centrales.
+- Les données économiques clés.
+- Le sentiment général du marché.
+3. Indiquez le sentiment global pour la devise (haussier, baissier ou neutre).
+4. Fournissez une explication concise (2-3 phrases) justifiant votre évaluation et le score attribué.
 
 Format JSON attendu:
 {
