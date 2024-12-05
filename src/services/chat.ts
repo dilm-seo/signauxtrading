@@ -28,7 +28,7 @@ export async function analyzeWithAI(message: string, settings: Settings, news: N
    - Les corrélations entre paires de devises
    - Les opportunités de trading potentielles
 
-3. Donner des recommandations claires mais rappeler que ce ne sont que des suggestions
+3. Donner des recommandations d'achat ou vente claires mais rappeler que ce ne sont que des suggestions
 
 4. Toujours inclure des avertissements sur les risques du trading
 
