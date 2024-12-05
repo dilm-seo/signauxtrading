@@ -12,7 +12,7 @@ interface TradingStore {
 export const useTradingStore = create<TradingStore>((set) => ({
   liquidityLevels: [],
   chartConfig: {
-    timeframe: '1D',
+    timeframe: '15',
     showLiquidity: true,
     showVolume: true,
   },
